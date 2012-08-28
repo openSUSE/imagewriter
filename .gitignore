@@ -1,3 +1,9 @@
+# Qt
+Makefile
+*.pro.user
+*.pro.user.*
+qtc_packaging
+
 # Compiled Object files
 *.slo
 *.lo
