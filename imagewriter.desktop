@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Categories=System;Utility;Archiving;
+X-KDE-RootOnly=true
+Exec=imagewriter %F
+Icon=imagewriter
+Name=SUSE Studio Imagewriter
+GenericName=USB key writer 
+X-KDE-SubstituteUID=true
+Version=1.0

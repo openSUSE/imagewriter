@@ -1,0 +1,8 @@
+ <!DOCTYPE RCC><RCC version="1.0">
+ <qresource>
+     <file>logo-mini.png</file>
+ </qresource>
+ <qresource>
+     <file>logo-empty.png</file>
+ </qresource>
+ </RCC>

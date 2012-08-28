@@ -1,0 +1,7 @@
+SUSE Studio ImageWriter for Windows
+
+This program is known to work on Vista and XP with .NET 2.0 SP2.
+It doesn't seem to work on Windows 7 - if you can figure out why, please
+let me know :-)
+
+- Matt Barringer <mbarringer@suse.de>
