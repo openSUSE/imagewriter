@@ -148,7 +148,8 @@ namespace ImageWriter
         private void SelectImage(object sender, System.EventArgs e)
         {
             OpenFileDialog imageFileDialog = new OpenFileDialog();
-            imageFileDialog.Filter = "Image Files (*.raw)|*.raw";
+            //Alex 9-9-2012: Tiny fix for file dialogs, where you'd have to rename a .iso to a .raw for it to show up.
+            imageFileDialog.Filter = "Image Files (*.raw, *.iso)|*.raw;*.iso";
             imageFileDialog.RestoreDirectory = true;
 
             if (imageFileDialog.ShowDialog() == DialogResult.OK)
