@@ -3,7 +3,10 @@ Makefile
 *.pro.user
 *.pro.user.*
 qtc_packaging
-
+moc_*
+qrc_*
+imagewriter
+.tmp/
 # Compiled Object files
 *.slo
 *.lo
