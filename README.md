@@ -8,18 +8,23 @@ Linux Installation
 
 In order to compile, run
 
-    % qmake 
+** HAL **
 
-to create the make file and then run
+    % qmake DEFINES=USEHAL imagewriter.pro
+
+** udisks1 **
+    
+    % qmake DEFINES=USEUDISKS imagewriter.pro
+
+** udisks2 **
+
+    % qmake DEFINES=USEUDISKS2 imagewriter.pro
+
+Failing to specify the define will likely not work out.
+
+Then run
 
     % make
-
-qmake should automatically detect your platform.
-
-**NOTE**
-
-By default, udisk2 is expected.  If your distro is using udisks1 or HAL, edit *imagewriter.pro* and remove
-`USEUDISKS2` from the `DEFINES` line.
 
 Linux kiosk mode
 ===========

@@ -312,3 +312,4 @@ PlatformUdisks2::doUnmount(const QString &partitionPath)
     }
     return(ret);
 }
+

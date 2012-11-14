@@ -23,4 +23,3 @@ OrgFreedesktopUDisks2FilesystemInterface::OrgFreedesktopUDisks2FilesystemInterfa
 OrgFreedesktopUDisks2FilesystemInterface::~OrgFreedesktopUDisks2FilesystemInterface()
 {
 }
-

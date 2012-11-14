@@ -7,7 +7,7 @@ TARGET =
 DEPENDPATH += .
 INCLUDEPATH += .
 VERSION=1.10
-DEFINES += APP_VERSION=\\\"$$VERSION\\\" USEUDISKS2
+DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 # Input
 HEADERS += DeviceItem.h \
@@ -35,6 +35,9 @@ exists("/usr/include/hal/libhal.h") {
     PKGCONFIG += hal \
         hal-storage
     DEFINES += USEHAL
+    DEFINES -= USEUDISKS2
+    HEADERS -= PlatformUdisks2.h udisks2_interface.h udisks2_mountpoints_interface.h MetaTypes.h
+    SOURCES -= PlatformUdisks2.cpp udisks2_interface.cpp udisks2_mountpoints_interface.cpp
 }
 
 QMAKE_EXTRA_TARGETS += distfile

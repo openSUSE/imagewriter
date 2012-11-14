@@ -11,40 +11,60 @@ Url:            https://github.com/mbarringer/imagewriter
 Name:           imagewriter
 BuildRequires:  gcc-c++
 
-%if 0%{?fedora_version}  
-    %define breq qt4-devel  
+%if 0%{?rhel_version} == 600 
+     %define dist el6
+     %define breq qt-devel
+     %define backend hal-devel
+     %define qmake /usr/bin/qmake-qt4  
+     %define lrelease /usr/bin/lrelease-qt4
+     %define definedbackend USEHAL
+%endif
+
+%if 0%{?fedora}
+    %define breq qt4-devel
+    %define backend udisks2
     %define qmake /usr/bin/qmake-qt4  
     %define lrelease /usr/bin/lrelease-qt4
-BuildRequires:  hal-devel
-%endif    
-%if 0%{?mandriva_version}  
+    %define definedbackend USEUDISKS2
+%endif
+
+%if 0%{?mandriva_version}
     %define breq libqt4-devel
+    %define backend hal-devel
     %define qmake /usr/lib/qt4/bin/qmake  
     %define lrelease /usr/lib/qt4/bin/lrelease
-BuildRequires:  hal-devel
+    %define definedbackend USEHAL
 %endif  
+
 %if 0%{?suse_version}
     %define breq libqt4-devel update-desktop-files
     %define qmake /usr/bin/qmake  
     %define lrelease /usr/bin/lrelease
 %endif
 
-%if 0%{?suse_version} < 1130
-BuildRequires:  hal-devel
+%if 0%{?suse_version} <= 1130
+    %define backend hal-devel
+    %define definedbackend USEHAL
 %endif
 
-%if 0%{?suse_version} > 1220
-    %define udiskflag "-DUDISKS2"
+%if 0%{?suse_version} == 1140 || 0%{?suse_version} == 1210
+    %define backend udisks
+    %define definedbackend USEUDISKS
+%endif
+
+%if 0%{?suse_version} >= 1220
+    %define backend udisks2
+    %define definedbackend USEUDISKS2
 %endif
 
 Summary:        SUSE Imagewriter
 Version:        1.10
 Release:        0
 Group:          Hardware/Other
-License:        GPL v2
+License:        GPL-2.0
 Source:         imagewriter-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-BuildRequires:  %{breq}
+BuildRequires:  %{breq} %{backend}
 %description
 A graphical utility for writing raw disk images & hybrid isos to USB keys
 
@@ -52,7 +72,7 @@ A graphical utility for writing raw disk images & hybrid isos to USB keys
 %setup 
 
 %build
-%{qmake} PREFIX=$RPM_BUILD_ROOT/%{_prefix} imagewriter.pro
+%{qmake} PREFIX=$RPM_BUILD_ROOT/%{_prefix} DEFINES=%{definedbackend} imagewriter.pro
 make buildroot=$RPM_BUILD_ROOT CFLAGS="$RPM_OPT_FLAGS -DKIOSKHACK"
 
 %install

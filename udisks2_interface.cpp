@@ -23,4 +23,3 @@ OrgFreedesktopDBusObjectManagerInterface::OrgFreedesktopDBusObjectManagerInterfa
 OrgFreedesktopDBusObjectManagerInterface::~OrgFreedesktopDBusObjectManagerInterface()
 {
 }
-
