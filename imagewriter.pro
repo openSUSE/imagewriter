@@ -42,7 +42,7 @@ DISTFILE_MAKEDIR = .tmp/imagewriter-$$VERSION
 DISTFILE_EXTRAFILES = $$RESOURCES \
     COPYING \
     imagewriter.pro \
-    README \
+    README.md \
     INSTALL \
     *.png \
     imagewriter.qrc \
