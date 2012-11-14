@@ -17,6 +17,7 @@ to create the make file and then run
 qmake should automatically detect your platform.
 
 **NOTE**
+
 By default, udisk2 is expected.  If your distro is using udisks1 or HAL, edit *imagewriter.pro* and remove
 `USEUDISKS2` from the `DEFINES` line.
 
