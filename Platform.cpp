@@ -5,15 +5,18 @@
 #include <sys/mount.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <unistd.h>
+
 #include <fcntl.h>
 #include <errno.h>
 
 #define BLOCKSIZE 1048576
 #define _GNU_SOURCE
 
-Platform::Platform(bool kioskMode)
+Platform::Platform(bool kioskMode, bool unsafe)
 {
      mKioskMode = kioskMode;
+     mUnsafe = unsafe;
 }
 
 bool

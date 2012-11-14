@@ -33,14 +33,14 @@ class PlatformUdisks : public Platform
 {
 
 public:
-    PlatformUdisks(bool kioskMode = false);
-    void findDevices(bool unsafe = false);
+    PlatformUdisks(bool kioskMode = false, bool unsafe = false);
+    void findDevices();
     bool isMounted(QString path);
     void writeData(QString path, QString fileName, qint64 deviceSize);
     bool unmountDevice(QString path);
     DeviceItem *getNewDevice(QString devicePath);
 
-private:
+protected:
     bool udiskEnabled();
     bool isUSB(const QString &udiskPath);
     bool isPartitionMounted(const QString &partitionPath);
@@ -52,7 +52,6 @@ private:
     QString getVendor(const QString &devicePath);
     bool getIsRemovable(const QString &devicePath);
     long long getSize(const QString &devicePath);
-
 };
 
 #endif

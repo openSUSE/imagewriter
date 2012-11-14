@@ -7,29 +7,38 @@
 #
 
 # needsrootforbuild
-Url:            http://kiwi.berlios.de
+Url:            https://github.com/mbarringer/imagewriter
 Name:           imagewriter
-BuildRequires:  hal-devel
 BuildRequires:  gcc-c++
 
 %if 0%{?fedora_version}  
     %define breq qt4-devel  
     %define qmake /usr/bin/qmake-qt4  
-    %define lrelease /usr/bin/lrelease-qt4  
+    %define lrelease /usr/bin/lrelease-qt4
+BuildRequires:  hal-devel
 %endif    
 %if 0%{?mandriva_version}  
     %define breq libqt4-devel
     %define qmake /usr/lib/qt4/bin/qmake  
-    %define lrelease /usr/lib/qt4/bin/lrelease  
+    %define lrelease /usr/lib/qt4/bin/lrelease
+BuildRequires:  hal-devel
 %endif  
-%if 0%{?suse_version}  
-    %define breq libqt4-devel  
+%if 0%{?suse_version}
+    %define breq libqt4-devel update-desktop-files
     %define qmake /usr/bin/qmake  
-    %define lrelease /usr/bin/lrelease  
+    %define lrelease /usr/bin/lrelease
 %endif
 
-Summary:        SUSE Studio Imagewriter
-Version:        1.8
+%if 0%{?suse_version} < 1130
+BuildRequires:  hal-devel
+%endif
+
+%if 0%{?suse_version} > 1220
+    %define udiskflag "-DUDISKS2"
+%endif
+
+Summary:        SUSE Imagewriter
+Version:        1.10
 Release:        0
 Group:          Hardware/Other
 License:        GPL v2
@@ -37,20 +46,24 @@ Source:         imagewriter-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildRequires:  %{breq}
 %description
-Graphical image writer application
+A graphical utility for writing raw disk images & hybrid isos to USB keys
 
 %prep
 %setup 
 
 %build
-%{qmake} PREFIX=%{_prefix} -makefile imagewriter.pro
-make buildroot=$RPM_BUILD_ROOT CFLAGS="$RPM_OPT_FLAGS"
+%{qmake} PREFIX=$RPM_BUILD_ROOT/%{_prefix} imagewriter.pro
+make buildroot=$RPM_BUILD_ROOT CFLAGS="$RPM_OPT_FLAGS -DKIOSKHACK"
 
 %install
 # build
-#install -d $RPM_BUILD_ROOT/usr/bin
-#install -m 755 -p imagewriter $RPM_BUILD_ROOT/usr/bin
+# I don't know why 'make install' ignores the binary when built in OBS
+install -d $RPM_BUILD_ROOT/usr/bin
+install -m 755 -p imagewriter $RPM_BUILD_ROOT/%{_bindir}
 make install
+%if 0%{?suse_version}
+    %suse_update_desktop_file imagewriter
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -59,7 +72,11 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 %{_bindir}/imagewriter
 %{_prefix}/share/applications/imagewriter.desktop
-%{_prefix}/share/icons/hicolor/*/apps/imagewriter.png 
+#%{_prefix}/share/icons/hicolor/*/apps/imagewriter.png
+%dir %{_datadir}/icons/hicolor/*/apps/
+%dir %{_datadir}/icons/hicolor/*/
+%dir %{_datadir}/icons/hicolor/
+%{_datadir}/icons/hicolor/*/apps/imagewriter.*
 %doc COPYING
 
 %changelog

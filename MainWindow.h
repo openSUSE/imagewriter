@@ -28,8 +28,10 @@
 #include <QWidget>
 #include <QDBusMessage>
 
+#include "MetaTypes.h"
 #include "Platform.h"
 #include "DeviceItem.h"
+
 #define DROPDOWN_DIRECTIVE "Insert a USB device"
 
 class MainWindow : public QWidget
@@ -48,6 +50,8 @@ public slots:
     void selectImage();
     void deviceInserted(QDBusMessage message);
     void deviceRemoved(QDBusMessage message);
+    void deviceInserted(const QDBusObjectPath &object_path, const QVariantMapMap &interfaces_and_properties);
+    void deviceRemoved(const QDBusObjectPath &object_path, const QStringList &interfaces);
 
 private slots:
     void write();

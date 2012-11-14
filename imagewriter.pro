@@ -6,20 +6,27 @@ TEMPLATE = app
 TARGET = 
 DEPENDPATH += .
 INCLUDEPATH += .
-VERSION=1.9
-DEFINES += APP_VERSION=\\\"$$VERSION\\\"
+VERSION=1.10
+DEFINES += APP_VERSION=\\\"$$VERSION\\\" USEUDISKS2
 
 # Input
 HEADERS += DeviceItem.h \
     MainWindow.h \
     Platform.h \
     PlatformHal.h \
-    PlatformUdisks.h
+    PlatformUdisks.h \
+    PlatformUdisks2.h \
+    udisks2_interface.h \
+    udisks2_mountpoints_interface.h \
+    MetaTypes.h
 SOURCES += main.cpp \
     MainWindow.cpp \
     PlatformHal.cpp \
     PlatformUdisks.cpp \
-    Platform.cpp
+    Platform.cpp \
+    PlatformUdisks2.cpp \
+    udisks2_interface.cpp \
+    udisks2_mountpoints_interface.cpp
 
 CONFIG += link_pkgconfig \
     qdbus

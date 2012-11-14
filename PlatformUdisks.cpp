@@ -36,8 +36,8 @@
 #include "DeviceItem.h"
 #include "PlatformUdisks.h"
 
-PlatformUdisks::PlatformUdisks(bool kioskMode)
-    : Platform(kioskMode)
+PlatformUdisks::PlatformUdisks(bool kioskMode, bool unsafe)
+    : Platform(kioskMode, unsafe)
 {
 }
 
@@ -65,7 +65,7 @@ PlatformUdisks::udiskEnabled()
 
 // Figure out which devices we should allow a user to write to.
 void
-PlatformUdisks::findDevices(bool unsafe)
+PlatformUdisks::findDevices()
 {
     int i = 0;
     if (!udiskEnabled())
@@ -75,6 +75,7 @@ PlatformUdisks::findDevices(bool unsafe)
         msgBox.exec();
         return;
     }
+
     // First get the list of disks
     QDBusConnection connection = QDBusConnection::systemBus();
     QDBusMessage message;
@@ -98,7 +99,7 @@ PlatformUdisks::findDevices(bool unsafe)
 
     QStringList diskList;
     // Safe mode (the default) only handles USB devices
-    if (!unsafe)
+    if (!mUnsafe)
     {
         for (i = 0; i < devList.size(); ++i)
             if (isUSB(devList.at(i)))

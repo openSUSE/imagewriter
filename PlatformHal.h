@@ -38,8 +38,8 @@ class PlatformHal : public Platform
 {
 
 public:
-    PlatformHal(bool kioskMode = false);
-    void findDevices(bool unsafe = false);
+    PlatformHal(bool kioskMode = false, bool unsafe = false);
+    void findDevices();
     bool isMounted(QString path);
     void writeData(QString path, QString fileName, qint64 deviceSize);
     bool unmountDevice(QString path);

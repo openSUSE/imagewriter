@@ -27,11 +27,15 @@
 #include <QProgressDialog>
 #include <QtDBus>
 #include <QFile>
+#include <QDebug>
 
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/sysctl.h>
 
+#ifdef USEUDISKS2
+#include "udisks2_interface.h"
+#endif
 
 
 #include "MainWindow.h"
@@ -86,7 +90,16 @@ MainWindow::MainWindow (Platform *platform,
                            "DeviceRemoved",
                            this,
                            SLOT(deviceRemoved(QDBusMessage)));
+#elif USEUDISKS2
+    qDebug() << "Using udisks2";
+    org::freedesktop::DBus::ObjectManager manager("org.freedesktop.UDisks2", "/org/freedesktop/UDisks2", QDBusConnection::systemBus());
+    QDBusConnection::systemBus().connect("org.freedesktop.UDisks2", "/org/freedesktop/UDisks2", "org.freedesktop.DBus.ObjectManager", "InterfacesAdded",
+                                         this, SLOT(deviceInserted(QDBusObjectPath,QVariantMapMap)));
+    QDBusConnection::systemBus().connect("org.freedesktop.UDisks2", "/org/freedesktop/UDisks2", "org.freedesktop.DBus.ObjectManager", "InterfacesRemoved",
+                                         this, SLOT(deviceRemoved(QDBusObjectPath,QStringList)));
+
 #else
+    qDebug() << "Using udisks";
     dbusConnection.connect("",
                            "/org/freedesktop/UDisks",
                            "org.freedesktop.UDisks",
@@ -313,6 +326,61 @@ MainWindow::checkIso(const QString &fileName)
     return(true);
 }
 
+// UDisks2 insertion handler
+void MainWindow::deviceInserted(const QDBusObjectPath &object_path,
+                                const QVariantMapMap &interfaces_and_properties)
+{
+    Q_UNUSED(interfaces_and_properties);
+
+    QRegExp reg("[0-9]+$");
+    QString path = object_path.path();
+
+    if (!path.startsWith("/org/freedesktop/UDisks2/block_devices"))
+        return;
+
+    if (path.contains(reg))
+        return;
+
+    DeviceItem *device = pPlatform->getNewDevice(path);
+    if (device != NULL)
+        if (deviceComboBox->findText(device->getDisplayString()) == -1)
+            addMenuItem(device->getDisplayString());
+
+}
+
+// UDisks2 removal handler
+void MainWindow::deviceRemoved(const QDBusObjectPath &object_path,
+                               const QStringList &interfaces)
+{
+    Q_UNUSED(interfaces);
+
+    QRegExp reg("[0-9]+$");
+    QString path = object_path.path();
+
+    if (!path.startsWith("/org/freedesktop/UDisks2/block_devices"))
+        return;
+
+    if (path.contains(reg))
+        return;
+
+    QString udi = path.mid(path.lastIndexOf("/") + 1);
+    QLinkedList<DeviceItem *> list = pPlatform->getDeviceList();
+    QLinkedList<DeviceItem *>::iterator i;
+    for (i = list.begin(); i != list.end(); ++i)
+    {
+        if ((*i)->getUDI() == udi)
+        {
+            if (removeMenuItem((*i)->getDisplayString()) != -1)
+            {
+                pPlatform->removeDeviceFromList(path);
+                break;
+            }
+        }
+    }
+
+}
+
+// UDisks & HAL insertion handler
 void
 MainWindow::deviceInserted(QDBusMessage message)
 {
@@ -333,10 +401,10 @@ MainWindow::deviceInserted(QDBusMessage message)
     }
 }
 
+// UDisks & HAL removal handler
 void
 MainWindow::deviceRemoved(QDBusMessage message)
 {
-    int index;
     QString devicePath;
 #ifdef USEHAL
     devicePath = message.arguments().at(0).toString();
@@ -554,22 +622,25 @@ AboutLabel::AboutLabel(QWidget *parent)
 void
 AboutLabel::mousePressEvent(QMouseEvent *event)
 {
+    Q_UNUSED(event);
     QMessageBox about(QMessageBox::Information, "About SUSE Studio Imagewriter",
-                   "The <b>SUSE Studio Imagewriter</b> is (C) 2010 Novell, Inc.<br><br>\
-                   It is cheerfully released under the GPL v2 license.  You can find the source code in the Kiwi project: http://kiwi.berlios.de.<br><br>\
-                   It was written by Matt Barringer &lt;mbarringer@suse.de&gt;.  Please send complaints directly to him.");
+                   "The <b>SUSE Studio Imagewriter</b> is (C) 2012, SUSE Linux Products GmbH<br><br>\
+                   It is cheerfully released under the GPL v2 license.  You can find the source code on github: https://github.com/mbarringer/imagewriter<br><br>\
+                   It was written by Matt Barringer &lt;matt@incoherent.de&gt;.  Please send complaints directly to him.");
     about.exec();
 }
 
 void
 AboutLabel::enterEvent(QEvent *event)
 {
+    Q_UNUSED(event);
     setCursor(Qt::PointingHandCursor);
 }
 
 void
 AboutLabel::leaveEvent(QEvent *event)
 {
+    Q_UNUSED(event);
     setCursor(Qt::ArrowCursor);
 }
 

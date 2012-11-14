@@ -27,10 +27,12 @@
 #error "Only linux is supported at the moment"
 #endif
 
-
+#include <unistd.h>
+#include <sys/types.h>
 #include "MainWindow.h"
 #include "PlatformHal.h"
 #include "PlatformUdisks.h"
+#include "PlatformUdisks2.h"
 #include "DeviceItem.h"
 
 
@@ -44,6 +46,7 @@ main (int argc, char *argv[])
     bool maximized = false;
     bool listMode = false;
     bool kioskMode = false;
+    qDebug() << "Starting up...";
 #if defined(Q_OS_UNIX) 
 #ifndef KIOSKHACK
     if (getuid() != 0)
@@ -95,11 +98,13 @@ main (int argc, char *argv[])
 
     QApplication app(argc, argv);
 #ifdef USEHAL
-    PlatformHal *platform = new PlatformHal(kioskMode);
+    PlatformHal *platform = new PlatformHal(kioskMode, unsafe);
+#elif USEUDISKS2
+    PlatformUdisks2 *platform = new PlatformUdisks2(kioskMode, unsafe);
 #else
-    PlatformUdisks *platform = new PlatformUdisks(kioskMode);
+    PlatformUdisks *platform = new PlatformUdisks(kioskMode, unsafe);
 #endif
-    platform->findDevices(unsafe);
+    platform->findDevices();
 
     if (listMode)
     {

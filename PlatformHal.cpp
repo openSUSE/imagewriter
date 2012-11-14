@@ -31,14 +31,14 @@
 #include "DeviceItem.h"
 #include "PlatformHal.h"
 
-PlatformHal::PlatformHal(bool kioskMode)
-    : Platform(kioskMode)
+PlatformHal::PlatformHal(bool kioskMode, bool unsafe)
+    : Platform(kioskMode, unsafe)
 {
 }
 
 // Figure out which devices we should allow a user to write to.
 void
-PlatformHal::findDevices(bool unsafe)
+PlatformHal::findDevices()
 {
     char **drives;
     int drive_count, i;
@@ -56,7 +56,7 @@ PlatformHal::findDevices(bool unsafe)
 
     // We want to only write to USB drives, unless the user specifies
     // the unsafe flag on the command line
-    if (unsafe)
+    if (mUnsafe)
         drives = libhal_manager_find_device_string_match(context,
                                                         "storage.drive_type",
                                                         "disk",
