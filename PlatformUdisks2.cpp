@@ -229,6 +229,9 @@ PlatformUdisks2::isMounted(QString path)
             break;
         }
     }
+    if (!mounted) {
+	mounted = isPartitionMounted(QString("/org/freedesktop/UDisks2/block_devices/") + path);
+    }
 
     return mounted;
 }
