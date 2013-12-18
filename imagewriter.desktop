@@ -6,3 +6,5 @@ Icon=imagewriter
 Name=SUSE Studio Imagewriter
 GenericName=USB key writer
 Version=1.0
+Keywords=iso;disk;usb;dvd;
+MimeType=application/x-cd-image;application/x-raw-disk-image;
