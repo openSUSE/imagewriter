@@ -282,12 +282,19 @@ PlatformUdisks2::unmountDevice(QString path)
 {
     bool res = true;
     QStringList partitions = getPartitionList(path);
-    foreach(QString partition, partitions)
+    if (partitions.empty())
     {
-        if (!doUnmount(partition))
+        res = doUnmount(QString("/org/freedesktop/UDisks2/block_devices/") + path);
+    }
+    else
+    {
+        foreach(QString partition, partitions)
         {
-            res = false;
-            break;
+            if (!doUnmount(partition))
+            {
+                res = false;
+                break;
+            }
         }
     }
 
