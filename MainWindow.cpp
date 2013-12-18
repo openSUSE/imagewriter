@@ -590,7 +590,7 @@ MainWindow::write()
         {
             case QMessageBox::Ok:
             {
-                pPlatform->writeData(item->getPath(), file, item->getSize());
+                pPlatform->writeData(item, file);
                 break;
             }
             default:

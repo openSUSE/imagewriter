@@ -54,14 +54,20 @@ Platform::findDeviceInList(const QString &displayName)
     return(retItem);
 }
 
+int
+Platform::open(DeviceItem* item)
+{
+    return ::open(item->getPath().toLocal8Bit().data(), O_WRONLY|O_SYNC|O_LARGEFILE);
+}
+
 // TODO make this routine not be shit
 void
-Platform::writeData(QString path, QString fileName, qint64 deviceSize)
+Platform::writeData(DeviceItem* item, QString fileName)
 {
     QFileInfo info(fileName);
     qint64 realSize = info.size();
 
-    if (realSize > deviceSize)
+    if (realSize > item->getSize())
     {
         QMessageBox msgBox;
         msgBox.setText(QObject::tr("The image you are trying to write is larger than your USB stick."));
@@ -89,10 +95,10 @@ Platform::writeData(QString path, QString fileName, qint64 deviceSize)
         return;
     }
 
-    if ((ofd = ::open(path.toLocal8Bit().data(), O_WRONLY|O_SYNC|O_LARGEFILE)) == -1)
+    if ((ofd = open(item)) == -1)
     {
         QMessageBox msgBox;
-        msgBox.setText(QObject::tr("Couldn't open ") + path + ": " + strerror(errno));
+        msgBox.setText(QObject::tr("Couldn't open ") + item->getPath() + ": " + strerror(errno));
         msgBox.exec();
         ::close(ifd);
         return;
@@ -118,7 +124,7 @@ Platform::writeData(QString path, QString fileName, qint64 deviceSize)
         if (written == -1)
         {
             QMessageBox msgBox;
-            msgBox.setText(QObject::tr("Write failure"));
+            msgBox.setText(QObject::tr("Write failure") + ": " + strerror(errno));
             msgBox.exec();
             break;
         }

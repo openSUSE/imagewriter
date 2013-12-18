@@ -3,6 +3,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <unistd.h>
 
 #include <QtCore>
 #include <QtGui>
@@ -266,7 +267,7 @@ PlatformUdisks2::isPartitionMounted(const QString &partitionPath)
     ByteArrayList reply = manager.mountPoints();
     if (reply.isEmpty())
     {
-        qDebug() << "Not mounted";
+        qDebug() << partitionPath << "not mounted";
         return false;
     }
 
@@ -311,5 +312,48 @@ PlatformUdisks2::doUnmount(const QString &partitionPath)
         ret = false;
     }
     return(ret);
+}
+
+int
+PlatformUdisks2::open(DeviceItem* item)
+{
+    int ret = -1;
+
+    QDBusConnection connection = QDBusConnection::systemBus();
+    QList<QVariant> args;
+    QVariantMap map;
+    args << map;
+
+    QString udi = QString("/org/freedesktop/UDisks2/block_devices/%1").arg(item->getUDI());
+    QDBusMessage message = QDBusMessage::createMethodCall("org.freedesktop.UDisks2", udi, "org.freedesktop.UDisks2.Block", "OpenForRestore");
+    message.setArguments(args);
+    QDBusMessage reply = connection.call(message);
+
+    if (reply.type() == QDBusMessage::ErrorMessage)
+    {
+        QMessageBox msgBox;
+        msgBox.setText(QString("DBUS error (%1): %2").arg(item->getUDI()).arg(reply.errorMessage()));
+        msgBox.exec();
+        ret = -1;
+    }
+    else if (reply.arguments().empty() || reply.arguments()[0].userType() != qMetaTypeId<QDBusUnixFileDescriptor>())
+    {
+        QMessageBox msgBox;
+        msgBox.setText(QString("got empty or invalid reply!?"));
+        msgBox.exec();
+	errno = EINVAL;
+    }
+    else
+    {
+	QDBusUnixFileDescriptor fd(qvariant_cast<QDBusUnixFileDescriptor>(reply.arguments()[0]));
+	if (fd.isValid())
+	{
+	    ret = ::dup(fd.fileDescriptor());
+	}
+    }
+
+    qDebug() << "ret" << ret;
+
+    return ret;
 }
 
