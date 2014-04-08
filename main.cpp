@@ -48,7 +48,7 @@ main (int argc, char *argv[])
     bool kioskMode = false;
     qDebug() << "Starting up...";
 #if defined(Q_OS_UNIX) 
-#ifndef KIOSKHACK
+#if !defined(KIOSKHACK) && !defined(USEUDISKS2)
     if (getuid() != 0)
         qFatal("You must run this program as the root user.");
 #endif

@@ -36,9 +36,10 @@ public:
     Platform(bool kioskMode = false, bool unsafe = false);
     bool removeDeviceFromList(const QString &displayName);
     DeviceItem *findDeviceInList(const QString &displayName);
-    void writeData(QString path, QString fileName, qint64 deviceSize);
+    void writeData(DeviceItem* item, QString fileName);
     QLinkedList<DeviceItem *> getDeviceList() { return itemList; }
 
+    virtual int open(DeviceItem* item);
     virtual void findDevices() {}
     virtual bool isMounted(QString path) { Q_UNUSED(path); return false; }
     virtual bool unmountDevice(QString path) { Q_UNUSED(path); return false; }

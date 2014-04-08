@@ -11,6 +11,7 @@ public:
     DeviceItem *getNewDevice(QString newPath);
     bool isMounted(QString path);
     bool unmountDevice(QString path);
+    int open(DeviceItem* item);
 
 private:
     bool udisk2Enabled();

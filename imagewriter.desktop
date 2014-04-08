@@ -1,8 +1,10 @@
 [Desktop Entry]
 Type=Application
 Categories=System;Utility;Archiving;
-Exec=/usr/bin/xdg-su -c /usr/bin/imagewriter %f
+Exec=/usr/bin/imagewriter %f
 Icon=imagewriter
 Name=SUSE Studio Imagewriter
 GenericName=USB key writer
 Version=1.0
+Keywords=iso;disk;usb;dvd;
+MimeType=application/x-cd-image;application/x-raw-disk-image;
