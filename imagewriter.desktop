@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Categories=System;Utility;Archiving;
-Exec=/usr/bin/imagewriter %f
+Exec=imagewriter %f
 Icon=imagewriter
 Name=SUSE Studio Imagewriter
 GenericName=USB key writer
