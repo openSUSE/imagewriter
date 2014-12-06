@@ -69,12 +69,6 @@ License:        GPL-2.0
 Group:          Hardware/Other
 Url:            https://github.com/openSUSE/imagewriter
 Source0:        imagewriter-%{version}.tar.xz
-# PATCH-FIX-UPSTREAM imagewriter-add-manpage-for-imagewriter.patch malcolmlewis@opensuse.org -- Add manpage for imagewriter.
-Patch0:         imagewriter-add-manpage-for-imagewriter.patch
-# PATCH-FIX-UPSTREAM imagewriter-remove-path-to-exec-in-desktop-file.patch malcolmlewis@opensuse.org -- Remove path to exec in desktop file.
-Patch1:         imagewriter-remove-path-to-exec-in-desktop-file.patch
-# PATCH-FIX-UPSTREAM imagewriter-update-FSF-Address-in-COPYING.patch malcolmlewis@opensuse.org -- Update FSF Address in COPYING.
-Patch2:         imagewriter-update-FSF-Address-in-COPYING.patch
 BuildRequires:  gcc-c++
 BuildRequires:  hicolor-icon-theme
 BuildRequires:  %{breq} %{backend}
@@ -87,9 +81,6 @@ A graphical utility for writing raw disk images & hybrid ISOs to USB keys.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
 
 %build
 # Create qmake cache file for building and use optflags.
