@@ -44,7 +44,7 @@ QMAKE_EXTRA_TARGETS += distfile
 DISTFILE_MAKEDIR = .tmp/imagewriter-$$VERSION
 DISTFILE_EXTRAFILES = $$RESOURCES \
     COPYING \
-    imagewriter.1
+    imagewriter.1 \
     imagewriter.pro \
     README.md \
     INSTALL \
