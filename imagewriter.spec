@@ -69,6 +69,12 @@ License:        GPL-2.0
 Group:          Hardware/Other
 Url:            https://github.com/openSUSE/imagewriter
 Source0:        imagewriter-%{version}.tar.xz
+# PATCH-FIX-UPSTREAM imagewriter-add-manpage-for-imagewriter.patch malcolmlewis@opensuse.org -- Add manpage for imagewriter.
+Patch0:         imagewriter-add-manpage-for-imagewriter.patch
+# PATCH-FIX-UPSTREAM imagewriter-remove-path-to-exec-in-desktop-file.patch malcolmlewis@opensuse.org -- Remove path to exec in desktop file.
+Patch1:         imagewriter-remove-path-to-exec-in-desktop-file.patch
+# PATCH-FIX-UPSTREAM imagewriter-update-FSF-Address-in-COPYING.patch malcolmlewis@opensuse.org -- Update FSF Address in COPYING.
+Patch2:         imagewriter-update-FSF-Address-in-COPYING.patch
 BuildRequires:  gcc-c++
 BuildRequires:  hicolor-icon-theme
 BuildRequires:  %{breq} %{backend}
@@ -81,6 +87,9 @@ A graphical utility for writing raw disk images & hybrid ISOs to USB keys.
 
 %prep
 %setup -q
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %build
 # Create qmake cache file for building and use optflags.
@@ -94,6 +103,9 @@ make
 
 %install
 make INSTALL_ROOT=%{buildroot} install
+%if 0%{?suse_version} <= 1130
+install -Dm0755 imagewriter %{buildroot}%{_bindir}/imagewriter
+%endif
 %if 0%{?suse_version}
     %suse_update_desktop_file imagewriter
 %endif
@@ -114,6 +126,10 @@ make INSTALL_ROOT=%{buildroot} install
 %{_bindir}/imagewriter
 %{_datadir}/applications/imagewriter.desktop
 %{_datadir}/icons/hicolor/*/apps/imagewriter.*
+%if 0%{?mandriva_version}
+%{_mandir}/man1/imagewriter.1.*
+%else
 %{_mandir}/man1/imagewriter.1%{?ext_man}
+%endif
 
 %changelog
