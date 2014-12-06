@@ -1,0 +1,55 @@
+.TH "imagewriter" "1" "06. Dec. 2014" "man page by Malcolm J Lewis" ""
+.SH NAME
+.B
+imagewriter
+- Utility for writing disk images to USB keys.
+.P
+.SH SYNOPSIS
+.B
+imagewriter
+.I
+[OPTIONS]
+.P
+.SH DESCRIPTION
+A graphical utility for writing raw disk images & hybrid ISOs to USB keys
+
+.SH OPTIONS
+
+.B
+-d <device>
+Specify a device, for example: /dev/sdc
+
+.B
+-f <raw file>
+Specify the file to write.
+
+.B
+-h, -help
+Display help and exit
+
+.B
+-k
+Operate in "kiosk mode", only listing disks smaller than 200GB.
+
+.B
+-l
+List valid USB devices.
+
+.B
+-m
+Maximize the window.
+
+.B
+-u
+Operate in unsafe mode, listing all disks, not just removable ones.
+
+.B
+-v
+Displays version and author information and exit.
+
+.SH AUTHOR
+Matt Barringer <mbarringer@suse.de>
+.SH HOMEPAGE
+https://github.com/openSUSE/imagewriter
+.SH REPORTING BUGS
+https://github.com/openSUSE/imagewriter/issues

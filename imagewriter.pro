@@ -44,6 +44,7 @@ QMAKE_EXTRA_TARGETS += distfile
 DISTFILE_MAKEDIR = .tmp/imagewriter-$$VERSION
 DISTFILE_EXTRAFILES = $$RESOURCES \
     COPYING \
+    imagewriter.1
     imagewriter.pro \
     README.md \
     INSTALL \
@@ -88,7 +89,8 @@ INSTALLS += imagewriter \
     icon32 \
     icon64 \
     icon128 \
-    desktop
+    desktop \
+    manpage
 desktop.path = $$PREFIX/share/applications/
 desktop.files += imagewriter.desktop
 icon32.path = $$PREFIX/share/icons/hicolor/32x32/apps
@@ -97,4 +99,6 @@ icon64.path = $$PREFIX/share/icons/hicolor/64x64/apps
 icon64.files += icons/64x64/imagewriter.png
 icon128.path = $$PREFIX/share/icons/hicolor/128x128/apps
 icon128.files += icons/128x128/imagewriter.png
+manpage.path =$$PREFIX/share/man/man1
+manpage.files += imagewriter.1
 RESOURCES += imagewriter.qrc
