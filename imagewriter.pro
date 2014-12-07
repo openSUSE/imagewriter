@@ -3,7 +3,7 @@
 # #####################################################################
 unix:isEmpty(PREFIX):PREFIX = /usr/local
 TEMPLATE = app
-TARGET = 
+TARGET =  imagewriter
 DEPENDPATH += .
 INCLUDEPATH += .
 DESTDIR += .
@@ -84,14 +84,13 @@ distfile.commands = mkdir \
     cd \
     ..
 
-imagewriter.path = $$PREFIX/bin
-imagewriter.files = imagewriter
-INSTALLS += imagewriter \
+INSTALLS += target \
     icon32 \
     icon64 \
     icon128 \
     desktop \
     manpage
+target.path = $$PREFIX/bin
 desktop.path = $$PREFIX/share/applications/
 desktop.files += imagewriter.desktop
 icon32.path = $$PREFIX/share/icons/hicolor/32x32/apps
