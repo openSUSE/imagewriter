@@ -94,9 +94,6 @@ make
 
 %install
 make INSTALL_ROOT=%{buildroot} install
-%if 0%{?suse_version} <= 1130
-install -Dm0755 imagewriter %{buildroot}%{_bindir}/imagewriter
-%endif
 %if 0%{?suse_version}
     %suse_update_desktop_file imagewriter
 %endif
