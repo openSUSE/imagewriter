@@ -148,7 +148,7 @@ namespace ImageWriter
         private void SelectImage(object sender, System.EventArgs e)
         {
             OpenFileDialog imageFileDialog = new OpenFileDialog();
-            imageFileDialog.Filter = "Image Files (*.raw, *.iso)|*.raw;*.iso|All files (*.*)|*.*";
+            imageFileDialog.Filter = "Image Files (*.raw, *.iso, *.img)|*.raw;*.iso;*.img|All files (*.*)|*.*";
             imageFileDialog.RestoreDirectory = true;
 
             if (imageFileDialog.ShowDialog() == DialogResult.OK)

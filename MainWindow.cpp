@@ -287,7 +287,7 @@ MainWindow::selectImage()
     QString fileName = QFileDialog::getOpenFileName(this,
                         tr("Open Image"),
                         QDir::currentPath(),
-                        tr("Image Files (*.raw *.iso)"));
+                        tr("Image Files (*.raw *.iso *.img)"));
     if (!fileName.isEmpty())
     {
         setFile(fileName);
