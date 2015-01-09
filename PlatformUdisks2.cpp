@@ -20,6 +20,7 @@
 #include "udisks2_interface.h"
 #include "udisks2_mountpoints_interface.h"
 
+
 PlatformUdisks2::PlatformUdisks2(bool kioskMode, bool unsafe)
     : Platform(kioskMode, unsafe)
 {
@@ -290,7 +291,7 @@ PlatformUdisks2::unmountDevice(QString path)
     {
         foreach(QString partition, partitions)
         {
-            if (!doUnmount(partition))
+            if (isPartitionMounted(partition) && !doUnmount(partition))
             {
                 res = false;
                 break;
