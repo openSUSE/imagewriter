@@ -479,7 +479,7 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *event)
     qDebug() << event->mimeData()->urls();
 #endif
     if (event->mimeData()->hasFormat("text/uri-list"))
-        if ((event->mimeData()->text().endsWith("iso")) || (event->mimeData()->text().endsWith("raw")))
+        if ((event->mimeData()->urls()[0].toString().endsWith("iso")) || (event->mimeData()->urls()[0].toString().endsWith("raw")))
             event->acceptProposedAction();
 }
 
