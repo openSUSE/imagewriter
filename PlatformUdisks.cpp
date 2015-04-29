@@ -32,6 +32,7 @@
 #include <QRegExp>
 #include <QDir>
 #include <QProgressDialog>
+#include <QMessageBox>
 
 #include "DeviceItem.h"
 #include "PlatformUdisks.h"

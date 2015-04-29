@@ -113,7 +113,7 @@ main (int argc, char *argv[])
         for (i = list.begin(); i != list.end(); ++i)
         {
             if (!(*i)->getPath().isEmpty())
-                fprintf(stdout, "%s\n", (*i)->getPath().toAscii().data());
+                fprintf(stdout, "%s\n", (*i)->getPath().toLatin1().data());
         }
         exit(0);
     }
