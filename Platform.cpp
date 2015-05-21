@@ -11,7 +11,6 @@
 #include <errno.h>
 
 #define BLOCKSIZE 1048576
-#define _GNU_SOURCE
 
 Platform::Platform(bool kioskMode, bool unsafe)
 {

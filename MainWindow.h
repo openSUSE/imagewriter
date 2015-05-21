@@ -27,6 +27,8 @@
 #include <QtGui>
 #include <QWidget>
 #include <QDBusMessage>
+#include <QLabel>
+#include <QComboBox>
 
 #include "MetaTypes.h"
 #include "Platform.h"

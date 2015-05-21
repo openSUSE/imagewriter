@@ -9,6 +9,8 @@ INCLUDEPATH += .
 DESTDIR += .
 VERSION=1.10
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
+QMAKE_CXXFLAGS_RELEASE += "-fvisibility=hidden -fvisibility-inlines-hidden"
+QT  += dbus gui widgets
 
 # Input
 HEADERS += DeviceItem.h \
@@ -29,8 +31,8 @@ SOURCES += main.cpp \
     udisks2_interface.cpp \
     udisks2_mountpoints_interface.cpp
 
-CONFIG += link_pkgconfig \
-    qdbus
+CONFIG += c++11 link_pkgconfig
+
 
 exists("/usr/include/hal/libhal.h") { 
     PKGCONFIG += hal \

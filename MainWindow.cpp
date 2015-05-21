@@ -28,6 +28,12 @@
 #include <QtDBus>
 #include <QFile>
 #include <QDebug>
+#include <QVBoxLayout>
+#include <QStackedLayout>
+#include <QPushButton>
+#include <QDesktopWidget>
+#include <QMessageBox>
+#include <QApplication>
 
 #include <unistd.h>
 #include <sys/types.h>

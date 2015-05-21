@@ -10,6 +10,7 @@
 #include <QRegExp>
 #include <QDir>
 #include <QProgressDialog>
+#include <QMessageBox>
 
 #include <QtDBus/QDBusConnection>
 #include <QtDBus/QDBusPendingReply>
