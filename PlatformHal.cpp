@@ -109,28 +109,28 @@ PlatformHal::getNewDevice(QString devicePath, LibHalContext *context)
     }
 
     device = libhal_device_get_property_string(localContext,
-                                               devicePath.toAscii(),
+                                               devicePath.toLatin1(),
                                                "block.device",
                                                NULL);
     if (device != NULL)
     {
 
         product = libhal_device_get_property_string(localContext,
-                                                    devicePath.toAscii(),
+                                                    devicePath.toLatin1(),
                                                     "info.product",
                                                     NULL);
 
         vendor = libhal_device_get_property_string(localContext,
-                                                   devicePath.toAscii(),
+                                                   devicePath.toLatin1(),
                                                    "info.vendor",
                                                    NULL);
         size = libhal_device_get_property_uint64(localContext,
-                                                 devicePath.toAscii(),
+                                                 devicePath.toLatin1(),
                                                  "storage.removable.media_size",
                                                  NULL);
 
         isRemovable = libhal_device_get_property_bool(localContext,
-                                                      devicePath.toAscii(),
+                                                      devicePath.toLatin1(),
                                                       "storage.removable",
                                                       NULL);
 
