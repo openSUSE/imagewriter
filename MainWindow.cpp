@@ -37,7 +37,6 @@
 
 #include <unistd.h>
 #include <sys/types.h>
-#include <sys/sysctl.h>
 
 #ifdef USEUDISKS2
 #include "udisks2_interface.h"
