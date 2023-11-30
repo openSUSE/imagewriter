@@ -338,7 +338,7 @@ void MainWindow::deviceInserted(const QDBusObjectPath &object_path,
 {
     Q_UNUSED(interfaces_and_properties);
 
-    QRegExp reg("[0-9]+$");
+    QRegExp reg("[1-9]+$");
     QString path = object_path.path();
 
     if (!path.startsWith("/org/freedesktop/UDisks2/block_devices"))
@@ -360,7 +360,7 @@ void MainWindow::deviceRemoved(const QDBusObjectPath &object_path,
 {
     Q_UNUSED(interfaces);
 
-    QRegExp reg("[0-9]+$");
+    QRegExp reg("[1-9]+$");
     QString path = object_path.path();
 
     if (!path.startsWith("/org/freedesktop/UDisks2/block_devices"))
