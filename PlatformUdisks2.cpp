@@ -51,7 +51,7 @@ PlatformUdisks2::udisk2Enabled()
 void
 PlatformUdisks2::findDevices()
 {
-    QRegExp reg("[0-9]+$");
+    QRegExp reg("[1-9]+$");
 
     if (!udisk2Enabled())
     {
