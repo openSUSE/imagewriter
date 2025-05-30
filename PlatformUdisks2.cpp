@@ -7,7 +7,7 @@
 
 #include <QtCore>
 #include <QtGui>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QDir>
 #include <QProgressDialog>
 #include <QMessageBox>
@@ -51,7 +51,7 @@ PlatformUdisks2::udisk2Enabled()
 void
 PlatformUdisks2::findDevices()
 {
-    QRegExp reg("[0-9]+$");
+    QRegularExpression reg("[0-9]+$");
 
     if (!udisk2Enabled())
     {
@@ -250,7 +250,7 @@ PlatformUdisks2::getPartitionList(const QString &devicePath)
         exit(0);
     }
 
-    QRegExp reg(QString("%1[0-9]+$").arg(devicePath));
+    QRegularExpression reg(QString("%1[0-9]+$").arg(devicePath));
 
     Q_FOREACH(const QDBusObjectPath &path, reply.value().keys()) {
         const QString udi = path.path();

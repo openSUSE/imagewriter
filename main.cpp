@@ -108,8 +108,8 @@ main (int argc, char *argv[])
 
     if (listMode)
     {
-        QLinkedList<DeviceItem *> list = platform->getDeviceList();
-        QLinkedList<DeviceItem *>::iterator i;
+        QList<DeviceItem *> list = platform->getDeviceList();
+        QList<DeviceItem *>::iterator i;
         for (i = list.begin(); i != list.end(); ++i)
         {
             if (!(*i)->getPath().isEmpty())

@@ -37,7 +37,7 @@ public:
     bool removeDeviceFromList(const QString &displayName);
     DeviceItem *findDeviceInList(const QString &displayName);
     void writeData(DeviceItem* item, QString fileName);
-    QLinkedList<DeviceItem *> getDeviceList() { return itemList; }
+    QList<DeviceItem *> getDeviceList() { return itemList; }
 
     virtual int open(DeviceItem* item);
     virtual void findDevices() {}
@@ -49,7 +49,7 @@ protected:
     bool mUnsafe;
     bool mKioskMode;
     DeviceItem *pDevice;
-    QLinkedList<DeviceItem *> itemList;
+    QList<DeviceItem *> itemList;
 };
 
 #endif
