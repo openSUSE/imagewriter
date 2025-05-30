@@ -1,7 +1,11 @@
 #ifndef __PLATFORMUDISKS2_H__
 #define __PLATFORMUDISKS2_H__
 
-#include "PlatformUdisks.h"
+#include <QtCore>
+#include <QtDBus>
+
+#include "DeviceItem.h"
+#include "Platform.h"
 
 class PlatformUdisks2 : public Platform
 {
