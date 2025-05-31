@@ -1,17 +1,32 @@
 cmake_minimum_required(VERSION 3.19)
 project(Imagewriter VERSION 1.10 LANGUAGES CXX)
 
-find_package(Qt6 REQUIRED
+# try to find Qt6
+find_package(Qt6 6.2
   COMPONENTS DBus Gui Widgets)
-
-qt_standard_project_setup(REQUIRES 6.2)
+if (Qt6_FOUND)
+  message(STATUS "Using Qt6")
+  qt_standard_project_setup()
+else()
+  # try to fall back to Qt5
+  find_package(Qt5 5.15
+    COMPONENTS DBus Gui Widgets)
+  if (Qt5_FOUND)
+    message(STATUS "Using Qt5")
+    set(CMAKE_AUTOMOC ON)
+    set(CMAKE_AUTORCC ON)
+    set(CMAKE_AUTOUIC ON)
+  else()
+    message(FATAL_ERROR "Qt6 and Qt5 not found")
+  endif()
+endif()
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fvisibility=hidden -fvisibility-inlines-hidden")
 
-qt_add_executable(imagewriter
+add_executable(imagewriter
   main.cpp
   MainWindow.cpp
   PlatformHal.cpp
@@ -27,4 +42,4 @@ target_compile_definitions(imagewriter PUBLIC "APP_VERSION=\"${CMAKE_PROJECT_VER
 target_compile_definitions(imagewriter PUBLIC USEUDISKS2)
 
 target_link_libraries(imagewriter
-  PRIVATE Qt6::DBus Qt6::Gui Qt6::Widgets)
+  PRIVATE Qt::DBus Qt::Gui Qt::Widgets)
