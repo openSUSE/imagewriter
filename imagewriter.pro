@@ -9,6 +9,7 @@ INCLUDEPATH += .
 DESTDIR += .
 VERSION=1.10
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
+DEFINES += USEUDISKS2
 QMAKE_CXXFLAGS_RELEASE += "-fvisibility=hidden -fvisibility-inlines-hidden"
 QT  += dbus gui widgets
 
@@ -17,7 +18,6 @@ HEADERS += DeviceItem.h \
     MainWindow.h \
     Platform.h \
     PlatformHal.h \
-    PlatformUdisks.h \
     PlatformUdisks2.h \
     udisks2_interface.h \
     udisks2_mountpoints_interface.h \
@@ -25,7 +25,6 @@ HEADERS += DeviceItem.h \
 SOURCES += main.cpp \
     MainWindow.cpp \
     PlatformHal.cpp \
-    PlatformUdisks.cpp \
     Platform.cpp \
     PlatformUdisks2.cpp \
     udisks2_interface.cpp \

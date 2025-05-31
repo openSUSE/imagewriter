@@ -95,29 +95,13 @@ MainWindow::MainWindow (Platform *platform,
                            "DeviceRemoved",
                            this,
                            SLOT(deviceRemoved(QDBusMessage)));
-#elif USEUDISKS2
+#else // USEUDISKS2
     qDebug() << "Using udisks2";
     org::freedesktop::DBus::ObjectManager manager("org.freedesktop.UDisks2", "/org/freedesktop/UDisks2", QDBusConnection::systemBus());
     QDBusConnection::systemBus().connect("org.freedesktop.UDisks2", "/org/freedesktop/UDisks2", "org.freedesktop.DBus.ObjectManager", "InterfacesAdded",
                                          this, SLOT(deviceInserted(QDBusObjectPath,QVariantMapMap)));
     QDBusConnection::systemBus().connect("org.freedesktop.UDisks2", "/org/freedesktop/UDisks2", "org.freedesktop.DBus.ObjectManager", "InterfacesRemoved",
                                          this, SLOT(deviceRemoved(QDBusObjectPath,QStringList)));
-
-#else
-    qDebug() << "Using udisks";
-    dbusConnection.connect("",
-                           "/org/freedesktop/UDisks",
-                           "org.freedesktop.UDisks",
-                           "DeviceAdded",
-                           this,
-                           SLOT(deviceInserted(QDBusMessage)));
-
-    dbusConnection.connect("",
-                           "/org/freedesktop/UDisks",
-                           "org.freedesktop.UDisks",
-                           "DeviceRemoved",
-                           this,
-                           SLOT(deviceRemoved(QDBusMessage)));
 #endif
     if (!mMaximized)
         centerWindow();
