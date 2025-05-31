@@ -623,8 +623,8 @@ AboutLabel::mousePressEvent(QMouseEvent *event)
 {
     Q_UNUSED(event);
     QMessageBox about(QMessageBox::Information, "About SUSE Studio Imagewriter",
-                   "The <b>SUSE Studio Imagewriter</b> is (C) 2012, SUSE Linux Products GmbH<br><br>\
-                   It is cheerfully released under the GPL v2 license.  You can find the source code on github: https://github.com/mbarringer/imagewriter<br><br>\
+                   "The <b>SUSE Studio Imagewriter</b> is (C) 2025, SUSE S.A.<br><br>\
+                   It is cheerfully released under the GPL v2 license.  You can find the source code on github: https://github.com/openSUSE/imagewriter<br><br>\
                    It was written by Matt Barringer &lt;matt@incoherent.de&gt;.  Please send complaints directly to him.");
     about.exec();
 }
