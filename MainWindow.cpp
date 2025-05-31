@@ -31,13 +31,12 @@
 #include <QVBoxLayout>
 #include <QStackedLayout>
 #include <QPushButton>
-#include <QDesktopWidget>
+#include <QScreen>
 #include <QMessageBox>
 #include <QApplication>
 
 #include <unistd.h>
 #include <sys/types.h>
-#include <sys/sysctl.h>
 
 #ifdef USEUDISKS2
 #include "udisks2_interface.h"
@@ -128,8 +127,8 @@ void
 MainWindow::reloadDeviceList(const char *cmddevice)
 {
     int dev = -1;
-    QLinkedList<DeviceItem *> list = pPlatform->getDeviceList();
-    QLinkedList<DeviceItem *>::iterator i;
+    QList<DeviceItem *> list = pPlatform->getDeviceList();
+    QList<DeviceItem *>::iterator i;
     for (i = list.begin(); i != list.end(); ++i)
     {
         if (!(*i)->getPath().isEmpty())
@@ -138,7 +137,7 @@ MainWindow::reloadDeviceList(const char *cmddevice)
 
         if (cmddevice != NULL)
             if ((*i)->getPath().compare(cmddevice) == 0)
-                dev = deviceComboBox->findText((*i)->getDisplayString(), 0);
+                dev = deviceComboBox->findText((*i)->getDisplayString(), Qt::MatchExactly);
     }
 
     if (dev != -1)
@@ -265,16 +264,15 @@ MainWindow::useOldUI()
 void
 MainWindow::centerWindow()
 {
-    QDesktopWidget *desktop = QApplication::desktop();
+    QScreen *screen = QApplication::primaryScreen();
 
     int screenWidth, width;
     int screenHeight, height;
     int x, y;
-    int screen = desktop->screenNumber(this);
     QSize windowSize;
 
-    screenWidth = desktop->screenGeometry(screen).width();
-    screenHeight = desktop->screenGeometry(screen).height();
+    screenWidth = screen->geometry().width();
+    screenHeight = screen->geometry().height();
 
     windowSize = size();
     width = windowSize.width();
@@ -338,7 +336,7 @@ void MainWindow::deviceInserted(const QDBusObjectPath &object_path,
 {
     Q_UNUSED(interfaces_and_properties);
 
-    QRegExp reg("[0-9]+$");
+    QRegularExpression reg("[0-9]+$");
     QString path = object_path.path();
 
     if (!path.startsWith("/org/freedesktop/UDisks2/block_devices"))
@@ -360,7 +358,7 @@ void MainWindow::deviceRemoved(const QDBusObjectPath &object_path,
 {
     Q_UNUSED(interfaces);
 
-    QRegExp reg("[0-9]+$");
+    QRegularExpression reg("[0-9]+$");
     QString path = object_path.path();
 
     if (!path.startsWith("/org/freedesktop/UDisks2/block_devices"))
@@ -370,8 +368,8 @@ void MainWindow::deviceRemoved(const QDBusObjectPath &object_path,
         return;
 
     QString udi = path.mid(path.lastIndexOf("/") + 1);
-    QLinkedList<DeviceItem *> list = pPlatform->getDeviceList();
-    QLinkedList<DeviceItem *>::iterator i;
+    QList<DeviceItem *> list = pPlatform->getDeviceList();
+    QList<DeviceItem *>::iterator i;
     for (i = list.begin(); i != list.end(); ++i)
     {
         if ((*i)->getUDI() == udi)
@@ -421,8 +419,8 @@ MainWindow::deviceRemoved(QDBusMessage message)
     if (devicePath.startsWith("/org/freedesktop/UDisks/devices/"))
 #endif
     {
-        QLinkedList<DeviceItem *> list = pPlatform->getDeviceList();
-        QLinkedList<DeviceItem *>::iterator i;
+        QList<DeviceItem *> list = pPlatform->getDeviceList();
+        QList<DeviceItem *>::iterator i;
         for (i = list.begin(); i != list.end(); ++i)
         {
             if ((*i)->getUDI() == devicePath)

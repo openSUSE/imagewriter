@@ -29,7 +29,7 @@
 
 #include <QtCore>
 #include <QtGui>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QDir>
 #include <QProgressDialog>
 #include <QMessageBox>
@@ -91,7 +91,7 @@ PlatformUdisks::findDevices()
 
     QList<QDBusObjectPath> list = reply.value();
     QStringList devList;
-    QRegExp reg("[0-9]+$");
+    QRegularExpression reg("[0-9]+$");
 
     // Ignore partition slices
     for (i = 0; i < list.size(); ++i)
@@ -385,7 +385,8 @@ PlatformUdisks::getPartitionList(const QString &devicePath)
     }
 
     QList<QDBusObjectPath> list = reply.value();
-    QRegExp reg(QString("%1[0-9]+$").arg(devicePath));
+    QRegularExpression reg(QString("%1[0-9]+$").arg(devicePath));
+
     for (int i = 0; i < list.size(); ++i)
         if (list.at(i).path().contains(reg))
             devList << list.at(i).path();

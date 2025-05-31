@@ -22,13 +22,14 @@ bool
 Platform::removeDeviceFromList(const QString &displayName)
 {
     DeviceItem *item = NULL;
-    QLinkedList<DeviceItem *>::iterator i;
+    QList<DeviceItem *>::iterator i;
     for (i = itemList.begin(); i != itemList.end(); ++i)
     {
         if ((*i)->getDisplayString() == displayName)
         {
             item = (*i);
             itemList.erase(i);
+            break;
         }
     }
 
@@ -43,7 +44,7 @@ DeviceItem *
 Platform::findDeviceInList(const QString &displayName)
 {
     DeviceItem *retItem = NULL;
-    QLinkedList<DeviceItem *>::iterator i;
+    QList<DeviceItem *>::iterator i;
     for (i = itemList.begin(); i != itemList.end(); ++i)
     {
         if ((*i)->getDisplayString() == displayName)
