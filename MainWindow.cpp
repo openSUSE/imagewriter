@@ -156,11 +156,6 @@ MainWindow::useNewUI()
     QHBoxLayout *pathSizeLayout;
     QPushButton *writeButton;
 
-    // Set the background colour
-    QPalette pal = palette();
-    pal.setColor(QPalette::Window, Qt::white);
-    setPalette(pal);
-
     imageLabel = new CustomLabel(this);
     imageLabel->setBackgroundRole(QPalette::Base);
     imageLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
