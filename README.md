@@ -12,13 +12,25 @@ In order to compile, run
 
     % qmake DEFINES=USEHAL imagewriter.pro
 
+or
+
+    % cmake -DUSEHAL=ON ..
+
 ** udisks1 **
     
     % qmake DEFINES=USEUDISKS imagewriter.pro
 
+or
+
+    % cmake -DUSEUDISKS=ON ..
+
 ** udisks2 **
 
     % qmake DEFINES=USEUDISKS2 imagewriter.pro
+
+or
+
+    % cmake -DUSEUDISKS2=ON ..
 
 Failing to specify the define will likely not work out.
 

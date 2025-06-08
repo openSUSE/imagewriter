@@ -38,8 +38,23 @@ add_executable(imagewriter
   imagewriter.qrc
 )
 
+include(FindPackageHandleStandardArgs)
+if(USEHAL)
+  # try to find HAL
+  find_path(HAL_INCLUDE_DIR NAMES hal/libhal.h)
+  find_library(HAL_LIBRARY NAMES hal)
+  find_package_handle_standard_args(HAL REQUIRED_VARS HAL_INCLUDE_DIR HAL_LIBRARY)
+  target_compile_definitions(imagewriter PUBLIC USEHAL)
+elseif(USEUDISKS)
+  target_compile_definitions(imagewriter PUBLIC USEUDISKS)
+else() # default to USEUDISKS2
+  target_compile_definitions(imagewriter PUBLIC USEUDISKS2)
+endif()
+
 target_compile_definitions(imagewriter PUBLIC "APP_VERSION=\"${CMAKE_PROJECT_VERSION}\"")
-target_compile_definitions(imagewriter PUBLIC USEUDISKS2)
 
 target_link_libraries(imagewriter
-  PRIVATE Qt::DBus Qt::Gui Qt::Widgets)
+  PRIVATE Qt::DBus Qt::Gui Qt::Widgets ${HAL_LIBRARY})
+
+target_include_directories(imagewriter
+  PRIVATE HAL_INCLUDE_DIR UDISKS_INCLUDE_DIR UDISKS2_INCLUDE_DIR)
