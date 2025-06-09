@@ -58,3 +58,11 @@ target_link_libraries(imagewriter
 
 target_include_directories(imagewriter
   PRIVATE HAL_INCLUDE_DIR UDISKS_INCLUDE_DIR UDISKS2_INCLUDE_DIR)
+
+# install
+include(GNUInstallDirs)
+install(TARGETS imagewriter
+  RUNTIME
+  RESOURCE imagewriter.qrc)
+install(DIRECTORY icons DESTINATION "${DATAROOTDIR}/icons/hicolor/")
+install(FILES imagewriter.1 DESTINATION ${mandir})
